@@ -10,6 +10,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -24,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     private MainViewModel viewModel;
 
+    private RecyclerView recyclerViewMovies;
+    private MoviesAdapter moviesAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,11 +40,17 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        moviesAdapter = new MoviesAdapter();
+        recyclerViewMovies.setAdapter(moviesAdapter);
+        recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 2));
+
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
         viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-                Log.d(TAG, movies.toString());
+//                Log.d(TAG, movies.toString());
+                moviesAdapter.setMovies(movies);
             }
         });
         viewModel.loadMovies();
