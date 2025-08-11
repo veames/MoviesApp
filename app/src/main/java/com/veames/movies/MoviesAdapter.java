@@ -1,5 +1,6 @@
 package com.veames.movies;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,9 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.JsonParseException;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +42,26 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        Glide.with(holder.itemView)
-                .load(movie.getPoster().getUrl())
-                .into(holder.imageViewPoster);
+        try {
+            Glide.with(holder.itemView)
+                    .load(movie.getPoster().getUrl())
+                    .into(holder.imageViewPoster);
+        } catch (JsonParseException exception) {
+            exception.printStackTrace();
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
         double rating = movie.getRating().getRatingKp();
+        int backgroundId;
+        if (rating > 7) {
+            backgroundId = R.drawable.circle_green;
+        } else if (rating > 5) {
+            backgroundId = R.drawable.circle_orange;
+        } else {
+            backgroundId = R.drawable.circle_red;
+        }
+        Drawable background = ContextCompat.getDrawable(holder.itemView.getContext(), backgroundId);
+        holder.textViewRating.setBackground(background);
         holder.textViewRating.setText(String.format("%.1f", rating));
     }
 

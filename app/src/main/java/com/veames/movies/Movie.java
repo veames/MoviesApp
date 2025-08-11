@@ -2,6 +2,8 @@ package com.veames.movies;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.json.JSONException;
+
 public class Movie {
 
     @SerializedName("id")
@@ -47,7 +49,14 @@ public class Movie {
         return year;
     }
 
-    public Poster getPoster() {
+//    public Poster getPoster() {
+//        return poster;
+//    }
+
+    public Poster getPoster() throws JSONException {
+        if (poster == null) {
+            poster = new Poster("");
+        }
         return poster;
     }
 
