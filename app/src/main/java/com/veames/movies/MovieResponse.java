@@ -17,4 +17,11 @@ public class MovieResponse {
         return moviesList;
     }
 
+    @Override
+    public String toString() {
+        return "MovieResponse {" +
+                "moviesList = " + moviesList +
+                '}';
+    }
+
 }

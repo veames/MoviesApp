@@ -15,4 +15,10 @@ public class Rating {
         return ratingKp;
     }
 
+    @Override
+    public String toString() {
+        return "Rating {" +
+                "ratingKp = " + ratingKp +
+                '}';
+    }
 }

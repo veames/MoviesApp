@@ -55,4 +55,15 @@ public class Movie {
         return rating;
     }
 
+    @Override
+    public String toString() {
+        return "Movie {" +
+                "id = " + id +
+                ", name = '" + name + '\'' +
+                ", description = '" + description + '\'' +
+                ", year = " + year +
+                ", rating = " + rating +
+                ", poster = " + poster +
+                '}';
+    }
 }
