@@ -2,6 +2,8 @@ package com.veames.movies;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
 
     private RecyclerView recyclerViewMovies;
+    private ProgressBar progressBarLoading;
     private MoviesAdapter moviesAdapter;
 
     @Override
@@ -40,19 +43,40 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        initViews();
+
         moviesAdapter = new MoviesAdapter();
         recyclerViewMovies.setAdapter(moviesAdapter);
         recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 2));
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.getIsLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean isLoading) {
+                if (isLoading) {
+                    progressBarLoading.setVisibility(View.VISIBLE);
+                } else {
+                    progressBarLoading.setVisibility(View.GONE);
+                }
+            }
+        });
         viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
             @Override
             public void onChanged(List<Movie> movies) {
-//                Log.d(TAG, movies.toString());
                 moviesAdapter.setMovies(movies);
             }
         });
-        viewModel.loadMovies();
+        moviesAdapter.setOnReachEndListener(new MoviesAdapter.OnReachEndListener() {
+            @Override
+            public void onReachEnd() {
+                viewModel.loadMovies();
+            }
+        });
     }
+
+    private void initViews() {
+        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
+        progressBarLoading = findViewById(R.id.progressBarLoading);
+    }
+
 }
