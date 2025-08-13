@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Movies</string>
+
+    <string name="positive_review">Позитивный</string>
+    <string name="neutral_review">Нейтральный</string>
+    <string name="negative_review">Негативный</string>
+
 </resources>
