@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-public class TrailerResponse implements Serializable {
+public class TrailerResponse {
 
     @SerializedName("videos")
     private TrailersList trailersList;
