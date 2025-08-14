@@ -12,9 +12,6 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.JsonParseException;
-
-import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,15 +50,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieViewH
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        try {
-            Glide.with(holder.itemView)
-                    .load(movie.getPoster().getUrl())
-                    .into(holder.imageViewPoster);
-        } catch (JsonParseException exception) {
-            exception.printStackTrace();
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
-        }
+
+        Glide.with(holder.itemView)
+                .load(movie.getPoster().getUrl())
+                .into(holder.imageViewPoster);
+
         double rating = movie.getRating().getRatingKp();
         int backgroundId;
         if (rating > 7) {
