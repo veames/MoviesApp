@@ -4,5 +4,6 @@
     <string name="positive_review">Позитивный</string>
     <string name="neutral_review">Нейтральный</string>
     <string name="negative_review">Негативный</string>
+    <string name="menu_item_favourite">Избранное</string>
 
 </resources>
